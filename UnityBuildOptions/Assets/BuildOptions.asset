@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: BuildOptions
   m_EditorClassIdentifier: 
   m_buildOptions: []
+  name: 

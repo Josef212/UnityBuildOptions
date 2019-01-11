@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
 
@@ -20,6 +19,5 @@ public class BuildOptions : ScriptableObject
     }
 
     [HideInInspector] public List<BuilOption> m_buildOptions = new List<BuilOption>();
-
-    public string name = "";
+    [HideInInspector] public string m_name = "";
 }

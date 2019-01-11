@@ -1,7 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
+using System.IO;
 
 public class BuildOptionsWindow : EditorWindow
 {
@@ -13,6 +13,7 @@ public class BuildOptionsWindow : EditorWindow
 
     private void OnEnable()
     {
+        m_nameCounter = EditorPrefs.GetInt("NameCounter");
         Refresh();
     }
 
@@ -20,6 +21,7 @@ public class BuildOptionsWindow : EditorWindow
     {
         m_presets.Clear();
         m_presetsFolds = null;
+        EditorPrefs.SetInt("NameCounter", m_nameCounter);
     }
 
     private void Refresh()
@@ -55,7 +57,7 @@ public class BuildOptionsWindow : EditorWindow
         {
             BuildOptions preset = m_presets[i];
 
-            m_presetsFolds[i] = EditorGUILayout.Foldout(m_presetsFolds[i], preset.name, true);
+            m_presetsFolds[i] = EditorGUILayout.Foldout(m_presetsFolds[i], preset.m_name, true);
 
             if(m_presetsFolds[i])
             {
@@ -122,13 +124,18 @@ public class BuildOptionsWindow : EditorWindow
 
         if (GUILayout.Button("Create"))
         {
+            var bo = new BuildOptions();
+            AssetDatabase.CreateAsset(bo, string.Format("Assets/BuildOptions{0}.asset", m_nameCounter));
+            bo.m_name = Path.GetFileNameWithoutExtension(AssetDatabase.GetAssetPath(bo));
+            ++m_nameCounter;
 
+            Refresh();
         }
 
         EditorGUILayout.EndHorizontal();
     }
 
-    // ====================00
+    // ======================
 
     private void SetBuildOptionsPreset(BuildOptions preset)
     {
@@ -143,4 +150,6 @@ public class BuildOptionsWindow : EditorWindow
 
     private BuildTargetGroup m_buildTargetGroup = BuildTargetGroup.Unknown;
     private string m_defines = "";
+
+    private int m_nameCounter = 1;
 }

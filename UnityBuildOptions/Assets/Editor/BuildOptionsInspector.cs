@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEditor;
-using UnityEditorInternal;
 using System.IO;
 
 [CustomEditor(typeof(BuildOptions))]
@@ -45,10 +42,10 @@ public class BuildOptionsInspector : Editor
         EditorGUILayout.EndHorizontal();
 
         string path = AssetDatabase.GetAssetPath(bTarget);
-        bTarget.name = Path.GetFileNameWithoutExtension(path);
+        bTarget.m_name = Path.GetFileNameWithoutExtension(path);
 
         EditorGUILayout.LabelField("Path: ", path);
-        EditorGUILayout.LabelField("Name: ", bTarget.name);
+        EditorGUILayout.LabelField("Name: ", bTarget.m_name);
     }
 
     private bool AddBuildGroup(BuildTargetGroup group)
